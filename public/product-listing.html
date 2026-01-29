@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Product - Mini Daraz</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            min-height: 100vh;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 1.25rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .nav-btn {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+            font-size: 0.875rem;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .nav-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .logout-btn {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+            font-size: 0.875rem;
+        }
+
+        .logout-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 1rem;
+        }
+
+        .add-product-section {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 1.5rem;
+        }
+
+        .section-title {
+            margin-bottom: 1rem;
+            color: #333;
+            font-size: 1.25rem;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #555;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        input[type="url"],
+        textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        input[type="text"]:focus,
+        input[type="number"]:focus,
+        input[type="url"]:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: transform 0.2s;
+            min-height: 44px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #7f8c8d 0%, #2c3e50 100%);
+        }
+
+        .error {
+            color: #e74c3c;
+            margin-top: 0.5rem;
+            font-size: 0.875rem;
+        }
+
+        .success {
+            color: #27ae60;
+            margin-top: 0.5rem;
+            font-size: 0.875rem;
+        }
+
+        .preview-section {
+            margin-top: 1rem;
+            padding: 1rem;
+            background: #f9f9f9;
+            border-radius: 5px;
+        }
+
+        .preview-title {
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .preview-image {
+            max-width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 5px;
+            margin-bottom: 0.5rem;
+        }
+
+        .preview-description {
+            margin-bottom: 0.5rem;
+        }
+
+        .preview-price {
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        /* Mobile-specific styles */
+        @media (max-width: 768px) {
+            .header {
+                padding: 0.75rem;
+                flex-direction: column;
+                gap: 0.5rem;
+                align-items: flex-start;
+            }
+
+            .nav-links {
+                width: 100%;
+                justify-content: space-between;
+                margin-bottom: 0.5rem;
+            }
+
+            .logout-btn {
+                align-self: flex-end;
+            }
+
+            .header h1 {
+                font-size: 1.1rem;
+            }
+
+            .container {
+                padding: 0.75rem;
+            }
+
+            .add-product-section {
+                padding: 1rem;
+            }
+
+            .section-title {
+                font-size: 1.1rem;
+                margin-bottom: 0.75rem;
+            }
+
+            .btn {
+                padding: 0.6rem 1rem;
+                font-size: 0.9rem;
+                min-height: 44px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header {
+                padding: 0.5rem;
+                align-items: center;
+            }
+
+            .nav-links {
+                flex-direction: column;
+                gap: 0.5rem;
+                width: 100%;
+            }
+
+            .logout-btn {
+                align-self: stretch;
+            }
+
+            .container {
+                padding: 0.5rem;
+            }
+
+            .add-product-section {
+                padding: 0.75rem;
+            }
+
+            .section-title {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <h1>Add New Product</h1>
+        <div class="nav-links">
+            <a href="dashboard.html" class="nav-btn">Dashboard</a>
+            <a href="my-products.html" class="nav-btn">My Products</a>
+            <a href="profile.html" class="nav-btn">Profile</a>
+            <button class="logout-btn" onclick="logout()">Logout</button>
+        </div>
+    </header>
+
+    <div class="container">
+        <section class="add-product-section">
+            <h2 class="section-title">Add Product Details</h2>
+            <form id="addProductForm">
+                <div class="form-group">
+                    <label for="productTitle">Product Title</label>
+                    <input type="text" id="productTitle" name="title" required placeholder="Enter product title">
+                </div>
+
+                <div class="form-group">
+                    <label for="productDescription">Product Description</label>
+                    <textarea id="productDescription" name="description" required placeholder="Describe your product..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="productPrice">Price ($)</label>
+                    <input type="number" id="productPrice" name="price" required min="0" step="0.01" placeholder="0.00">
+                </div>
+
+                <div class="form-group">
+                    <label for="productImageInput">Upload Product Image</label>
+                    <input type="file" id="productImageInput" name="imageFile" accept="image/*">
+                    <small>Choose an image file from your device (optional)</small>
+                    <br><br>
+                    <label for="productImageUrl">Or enter image URL</label>
+                    <input type="url" id="productImageUrl" name="imageUrl" placeholder="https://example.com/image.jpg">
+                    <small>Enter a direct link to your product image (optional)</small>
+                </div>
+
+                <div id="addProductError" class="error"></div>
+                <div id="addProductSuccess" class="success"></div>
+
+                <button type="submit" class="btn" id="addProductBtn">Add Product</button>
+                <a href="dashboard.html" class="btn btn-secondary">Back to Dashboard</a>
+            </form>
+
+            <div id="previewSection" class="preview-section" style="display: none;">
+                <h3>Preview</h3>
+                <div class="preview-image-container">
+                    <img id="previewImage" class="preview-image" alt="Product preview">
+                </div>
+                <div class="preview-title" id="previewTitle"></div>
+                <div class="preview-description" id="previewDescription"></div>
+                <div class="preview-price" id="previewPrice"></div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // Check if user is logged in
+        const token = localStorage.getItem('token');
+        if (!token) {
+            window.location.href = 'login.html';
+        }
+
+        // Set up authorization header for all requests
+        async function apiCall(url, options = {}) {
+            // Ensure the URL is properly formed (add leading slash if needed and not a full URL)
+            if (!url.startsWith('/') && !url.startsWith('http')) {
+                if (url.startsWith('products')) {
+                    url = '/api/' + url;
+                } else if (url.startsWith('orders')) {
+                    url = '/api/' + url;
+                } else {
+                    url = '/api/auth/' + url;
+                }
+            }
+
+            const response = await fetch(url, {
+                ...options,
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-auth-token': token,
+                    ...options.headers
+                }
+            }).catch(error => {
+                console.error('Network error:', error);
+                throw new Error('Network error. Please check your connection.');
+            });
+
+            if (response.status === 401) {
+                localStorage.removeItem('token');
+                window.location.href = 'login.html';
+            }
+
+            return response;
+        }
+
+        // Logout function
+        function logout() {
+            localStorage.removeItem('token');
+            window.location.href = 'login.html';
+        }
+
+        // Preview image when file is selected
+        document.getElementById('productImageInput').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const previewImg = document.getElementById('previewImage');
+                    previewImg.src = e.target.result;
+                    document.getElementById('previewSection').style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Preview image when URL is entered
+        document.getElementById('productImageUrl').addEventListener('input', function(e) {
+            const url = e.target.value;
+            if (url && isValidUrl(url)) {
+                const previewImg = document.getElementById('previewImage');
+                previewImg.src = url;
+                document.getElementById('previewSection').style.display = 'block';
+            }
+        });
+
+        // Validate URL
+        function isValidUrl(string) {
+            try {
+                new URL(string);
+                return true;
+            } catch (_) {
+                return false;
+            }
+        }
+
+        // Update preview when inputs change
+        function updatePreview() {
+            const title = document.getElementById('productTitle').value;
+            const description = document.getElementById('productDescription').value;
+            const price = document.getElementById('productPrice').value;
+
+            if (title || description || price) {
+                document.getElementById('previewTitle').textContent = title || 'Product Title';
+                document.getElementById('previewDescription').textContent = description || 'Product description will appear here...';
+                document.getElementById('previewPrice').textContent = price ? `$${parseFloat(price).toFixed(2)}` : '$0.00';
+
+                if (!document.getElementById('previewSection').style.display || document.getElementById('previewSection').style.display === 'none') {
+                    document.getElementById('previewSection').style.display = 'block';
+                }
+            }
+        }
+
+        // Add event listeners for real-time preview
+        document.getElementById('productTitle').addEventListener('input', updatePreview);
+        document.getElementById('productDescription').addEventListener('input', updatePreview);
+        document.getElementById('productPrice').addEventListener('input', updatePreview);
+
+        // Add product form submission
+        document.getElementById('addProductForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const addProductBtn = document.getElementById('addProductBtn');
+            const addProductError = document.getElementById('addProductError');
+            const addProductSuccess = document.getElementById('addProductSuccess');
+
+            const title = document.getElementById('productTitle').value;
+            const description = document.getElementById('productDescription').value;
+            const price = parseFloat(document.getElementById('productPrice').value);
+
+            // Check if user uploaded a file or entered a URL
+            const fileInput = document.getElementById('productImageInput');
+            const urlInput = document.getElementById('productImageUrl');
+            let image = '';
+
+            if (fileInput.files.length > 0) {
+                // Handle file upload
+                const file = fileInput.files[0];
+                image = await uploadImage(file);
+                if (!image) {
+                    addProductError.textContent = 'Failed to upload image';
+                    return;
+                }
+            } else if (urlInput.value) {
+                // Use URL if provided
+                image = urlInput.value;
+            } else {
+                // Use a default image if none provided
+                image = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="400" height="300" viewBox="0 0 400 300"><rect width="400" height="300" fill="%23eee"/><text x="200" y="150" font-family="Arial" font-size="16" text-anchor="middle" dominant-baseline="middle" fill="%23999">No Image Provided</text></svg>';
+            }
+
+            // Clear previous messages
+            addProductError.textContent = '';
+            addProductSuccess.textContent = '';
+            addProductBtn.disabled = true;
+            addProductBtn.textContent = 'Adding...';
+
+            try {
+                const response = await apiCall('products', {
+                    method: 'POST',
+                    body: JSON.stringify({ title, description, price, image })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    addProductSuccess.textContent = 'Product added successfully!';
+                    document.getElementById('addProductForm').reset();
+                    document.getElementById('previewSection').style.display = 'none';
+
+                    // Show success message and redirect after delay
+                    setTimeout(() => {
+                        window.location.href = 'my-products.html'; // Redirect to user's products page
+                    }, 2000);
+                } else {
+                    addProductError.textContent = data.msg || 'Failed to add product';
+                }
+            } catch (error) {
+                addProductError.textContent = 'Network error. Please try again.';
+            } finally {
+                addProductBtn.disabled = false;
+                addProductBtn.textContent = 'Add Product';
+            }
+        });
+
+        // Function to upload image to a temporary storage and return URL
+        async function uploadImage(file) {
+            // For now, we'll convert the file to a data URL
+            // In a production app, you'd want to upload to cloud storage like AWS S3, Cloudinary, etc.
+            return new Promise((resolve) => {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    resolve(e.target.result); // Returns data URL
+                };
+                reader.onerror = function() {
+                    resolve(null);
+                };
+                reader.readAsDataURL(file);
+            });
+        }
+
+        // Initialize preview with empty values
+        updatePreview();
+    </script>
+</body>
+</html>

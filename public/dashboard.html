@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Mini Daraz</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            min-height: 100vh;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .nav-btn {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+            font-size: 0.875rem;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .nav-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .logout-btn {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+            font-size: 0.875rem;
+        }
+
+        .logout-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem;
+        }
+
+        .section-title {
+            margin-bottom: 1rem;
+            color: #333;
+            font-size: 1.25rem;
+        }
+
+        .products-section {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .product-card {
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            padding: 1rem;
+            background: white;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 5px;
+            margin-bottom: 0.75rem;
+        }
+
+        .product-title {
+            font-size: 1rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: #333;
+            word-wrap: break-word;
+        }
+
+        .product-description {
+            color: #666;
+            margin-bottom: 0.5rem;
+            line-height: 1.4;
+            font-size: 0.875rem;
+            word-wrap: break-word;
+        }
+
+        .product-price {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 0.75rem;
+        }
+
+        .product-owner {
+            font-size: 0.75rem;
+            color: #888;
+            margin-bottom: 1rem;
+            word-wrap: break-word;
+        }
+
+        .product-actions {
+            display: flex;
+            gap: 0.5rem;
+            flex-direction: column;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: transform 0.2s;
+            min-height: 40px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+        }
+
+        .btn-edit {
+            background: linear-gradient(135deg, #f39c12 0%, #d35400 100%);
+        }
+
+        .btn-view {
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 2rem;
+            color: #666;
+            font-style: italic;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            color: #666;
+        }
+
+        .error {
+            color: #e74c3c;
+            margin-top: 0.5rem;
+            font-size: 0.875rem;
+        }
+
+        .success {
+            color: #27ae60;
+            margin-top: 0.5rem;
+            font-size: 0.875rem;
+        }
+
+        /* Mobile-specific styles */
+        @media (max-width: 768px) {
+            .header {
+                padding: 0.75rem;
+                flex-direction: column;
+                gap: 0.5rem;
+                align-items: flex-start;
+            }
+
+            .nav-links {
+                width: 100%;
+                justify-content: space-between;
+                margin-bottom: 0.5rem;
+            }
+
+            .logout-btn {
+                align-self: flex-end;
+            }
+
+            .container {
+                padding: 0.75rem;
+            }
+
+            .products-section {
+                padding: 1rem;
+            }
+
+            .section-title {
+                font-size: 1.1rem;
+                margin-bottom: 0.75rem;
+            }
+
+            .products-grid {
+                grid-template-columns: 1fr; /* Single column on mobile */
+                gap: 1rem;
+            }
+
+            .product-card {
+                padding: 0.75rem;
+            }
+
+            .product-image {
+                height: 120px;
+            }
+
+            .product-title {
+                font-size: 0.95rem;
+            }
+
+            .product-description {
+                font-size: 0.8rem;
+            }
+
+            .product-price {
+                font-size: 1rem;
+            }
+
+            .product-actions {
+                flex-direction: column;
+            }
+
+            .btn {
+                padding: 0.5rem 1rem;
+                font-size: 0.85rem;
+                min-height: 40px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header {
+                padding: 0.5rem;
+                align-items: center;
+            }
+
+            .nav-links {
+                flex-direction: column;
+                gap: 0.5rem;
+                width: 100%;
+            }
+
+            .logout-btn {
+                align-self: stretch;
+            }
+
+            .container {
+                padding: 0.5rem;
+            }
+
+            .products-section {
+                padding: 0.75rem;
+            }
+
+            .section-title {
+                font-size: 1rem;
+            }
+
+            .product-actions {
+                gap: 0.25rem;
+            }
+
+            .btn {
+                padding: 0.45rem 0.75rem;
+                font-size: 0.8rem;
+                margin-bottom: 0.25rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <h1>Mini Daraz Dashboard</h1>
+        <div class="nav-links">
+            <a href="product-listing.html" class="nav-btn">Add Product</a>
+            <a href="my-products.html" class="nav-btn">My Products</a>
+            <a href="profile.html" class="nav-btn">Profile</a>
+            <button class="logout-btn" onclick="logout()">Logout</button>
+        </div>
+    </header>
+
+    <div class="container">
+        <section class="products-section">
+            <h2 class="section-title">All Products</h2>
+            <div id="productsContainer">
+                <div class="loading">Loading products...</div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // Check if user is logged in
+        const token = localStorage.getItem('token');
+        if (!token) {
+            window.location.href = 'login.html';
+        }
+
+        // Set up authorization header for all requests
+        async function apiCall(url, options = {}) {
+            // Ensure the URL is properly formed (add leading slash if needed and not a full URL)
+            if (!url.startsWith('/') && !url.startsWith('http')) {
+                if (url.startsWith('products')) {
+                    url = '/api/' + url;
+                } else if (url.startsWith('orders')) {
+                    url = '/api/' + url;
+                } else {
+                    url = '/api/auth/' + url;
+                }
+            }
+
+            const response = await fetch(url, {
+                ...options,
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-auth-token': token,
+                    ...options.headers
+                }
+            }).catch(error => {
+                console.error('Network error:', error);
+                throw new Error('Network error. Please check your connection.');
+            });
+
+            if (response.status === 401) {
+                localStorage.removeItem('token');
+                window.location.href = 'login.html';
+            }
+
+            return response;
+        }
+
+        // Logout function
+        function logout() {
+            localStorage.removeItem('token');
+            window.location.href = 'login.html';
+        }
+
+        // Load products
+        async function loadProducts() {
+            try {
+                const response = await apiCall('products');
+                const data = await response.json();
+
+                if (response.ok) {
+                    displayProducts(data.products);
+                } else {
+                    document.getElementById('productsContainer').innerHTML =
+                        `<div class="error">Failed to load products: ${data.msg}</div>`;
+                }
+            } catch (error) {
+                document.getElementById('productsContainer').innerHTML =
+                    `<div class="error">Network error. Please refresh the page.</div>`;
+            }
+        }
+
+        // Display products
+        function displayProducts(products) {
+            if (products.length === 0) {
+                document.getElementById('productsContainer').innerHTML =
+                    '<div class="empty-state">No products found.</div>';
+                return;
+            }
+
+            const userId = getCurrentUserId();
+            const productsHtml = products.map(product => `
+                <div class="product-card">
+                    <img src="${product.image}" alt="${product.title}" class="product-image" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"200\" height=\"200\" viewBox=\"0 0 200 200\"><rect width=\"200\" height=\"200\" fill=\"#eee\"/><text x=\"100\" y=\"100\" font-family=\"Arial\" font-size=\"14\" text-anchor=\"middle\" dominant-baseline=\"middle\" fill=\"#999\">No Image</text></svg>';">
+                    <div class="product-title">${product.title}</div>
+                    <div class="product-description">${product.description}</div>
+                    <div class="product-price">$${parseFloat(product.price).toFixed(2)}</div>
+                    <div class="product-owner">By: ${product.user ? product.user.name : 'Unknown'} (${product.user ? product.user.email : 'N/A'})</div>
+                    <div class="product-actions">
+                        ${product.createdBy === userId ?
+                            `<button class="btn" onclick="goToMyProducts()">Manage</button>` :
+                            ''}
+                    </div>
+                </div>
+            `).join('');
+
+            document.getElementById('productsContainer').innerHTML = `
+                <div class="products-grid">
+                    ${productsHtml}
+                </div>
+            `;
+        }
+
+        // Get current user ID from token
+        function getCurrentUserId() {
+            try {
+                const payload = JSON.parse(atob(token.split('.')[1]));
+                return payload.user.id;
+            } catch (error) {
+                return null;
+            }
+        }
+
+        // Navigate to user's products page
+        function goToMyProducts() {
+            window.location.href = 'my-products.html';
+        }
+
+        // Load products when page loads
+        document.addEventListener('DOMContentLoaded', loadProducts);
+    </script>
+</body>
+</html>

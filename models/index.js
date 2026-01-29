@@ -1,0 +1,24 @@
+const User = require('./User');
+const Product = require('./Product');
+const Order = require('./Order');
+const OrderItem = require('./OrderItem');
+
+// Define associations
+Product.belongsTo(User, { foreignKey: 'createdBy', as: 'user' });
+User.hasMany(Product, { foreignKey: 'createdBy', as: 'products' });
+
+Order.belongsTo(User, { foreignKey: 'user_id', as: 'user' });
+User.hasMany(Order, { foreignKey: 'user_id', as: 'orders' });
+
+Order.hasMany(OrderItem, { foreignKey: 'order_id', as: 'orderItems' });
+OrderItem.belongsTo(Order, { foreignKey: 'order_id', as: 'order' });
+
+OrderItem.belongsTo(Product, { foreignKey: 'product_id', as: 'product' });
+Product.hasMany(OrderItem, { foreignKey: 'product_id', as: 'orderItems' });
+
+module.exports = {
+  User,
+  Product,
+  Order,
+  OrderItem
+};

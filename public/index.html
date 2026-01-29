@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mini Daraz - E-commerce Platform</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .welcome-container {
+            text-align: center;
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            width: 90%;
+        }
+
+        .welcome-container h1 {
+            color: #333;
+            margin-bottom: 1rem;
+            font-size: 1.75rem;
+        }
+
+        .welcome-container p {
+            color: #666;
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            margin: 0.5rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: transform 0.2s;
+            border: none;
+            min-height: 44px; /* Better touch targets for mobile */
+            min-width: 120px; /* Ensure minimum button width */
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #7f8c8d 0%, #2c3e50 100%);
+        }
+
+        /* Mobile-specific styles */
+        @media (max-width: 768px) {
+            .welcome-container {
+                padding: 1.5rem;
+                width: 95%;
+            }
+
+            .welcome-container h1 {
+                font-size: 1.5rem;
+                margin-bottom: 0.75rem;
+            }
+
+            .welcome-container p {
+                font-size: 1rem;
+                margin-bottom: 1.5rem;
+            }
+
+            .btn {
+                padding: 0.75rem 1.25rem;
+                margin: 0.5rem 0.25rem;
+                font-size: 0.95rem;
+                min-width: 100px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .welcome-container {
+                padding: 1.25rem;
+                width: 98%;
+            }
+
+            .welcome-container h1 {
+                font-size: 1.3rem;
+                margin-bottom: 0.5rem;
+            }
+
+            .welcome-container p {
+                font-size: 0.9rem;
+                margin-bottom: 1.25rem;
+            }
+
+            .btn {
+                padding: 0.7rem 1rem;
+                margin: 0.5rem 0.25rem;
+                font-size: 0.9rem;
+                min-width: 90px;
+                display: block;
+                width: 80%;
+                margin-left: auto;
+                margin-right: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="welcome-container">
+        <h1>Welcome to Mini Daraz</h1>
+        <p>Your one-stop online shopping destination</p>
+        <div>
+            <a href="login.html" class="btn">Login</a>
+            <a href="signup.html" class="btn btn-secondary">Sign Up</a>
+        </div>
+    </div>
+
+    <script>
+        // Check if user is already logged in
+        const token = localStorage.getItem('token');
+        if (token) {
+            // If user is logged in, redirect to dashboard
+            window.location.href = 'dashboard.html';
+        }
+
+        // Optional: Auto-refresh to ensure we're using the latest server
+        // This is just for development purposes
+    </script>
+</body>
+</html>
