@@ -9,8 +9,18 @@ dotenv.config();
 
 const app = express();
 
-// Connect to PostgreSQL
-connectDB();
+// Database connection with error handling
+const startServer = async () => {
+  try {
+    await connectDB();
+    console.log("Database connected successfully");
+  } catch (err) {
+    console.error("Database connection failed:", err.message);
+    // Vercel par process.exit(1) mat karna, warna function fail dikhayega
+  }
+};
+
+startServer();
 
 // Middleware
 app.use(cors());
