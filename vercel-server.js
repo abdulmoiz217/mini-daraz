@@ -9,18 +9,17 @@ dotenv.config();
 
 const app = express();
 
-// Database connection with error handling
-const startServer = async () => {
+// Database connection function ko aise call karo
+const connectAndStart = async () => {
   try {
     await connectDB();
-    console.log("Database connected successfully");
-  } catch (err) {
-    console.error("Database connection failed:", err.message);
-    // Vercel par process.exit(1) mat karna, warna function fail dikhayega
+    console.log("Database Connected!");
+  } catch (error) {
+    console.error("DB Connection Error:", error.message);
   }
 };
 
-startServer();
+connectAndStart();
 
 // Middleware
 app.use(cors());

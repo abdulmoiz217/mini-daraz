@@ -11,7 +11,7 @@ This application is configured for deployment on Vercel.
 ⚠️ **IMPORTANT**: The `.env` file contains placeholder values only. **DO NOT** deploy actual credentials with your code!
 For Vercel deployment, configure these environment variables in your Vercel project settings (in the dashboard):
 
-- `DATABASE_URL`: PostgreSQL connection string
+- `DATABASE_URL`: PostgreSQL connection string (Note: If using NeonDB on Vercel, remove "&channel_binding=require" from connection string as some Node.js versions on Vercel don't support it)
 - `JWT_SECRET`: **REQUIRED** - Secret for JWT token generation (using "moiz_super_secret_key_123_@#$" for local development)
 - `NODE_ENV`: Set to "production" for production deployment
 - `USE_NEON_REST_API`: Set to "false" to use direct DB connection or "true" for REST API
