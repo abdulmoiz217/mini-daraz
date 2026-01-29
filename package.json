@@ -2,10 +2,11 @@
   "name": "ecommerce-app",
   "version": "1.0.0",
   "description": "Full-stack e-commerce web application like a mini Daraz",
-  "main": "server.js",
+  "main": "vercel-server.js",
   "scripts": {
     "start": "node server.js",
-    "dev": "nodemon server.js"
+    "dev": "nodemon server.js",
+    "vercel": "node vercel-server.js"
   },
   "keywords": [
     "ecommerce",

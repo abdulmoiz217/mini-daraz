@@ -61,7 +61,25 @@
       "Bash(del test-config.js)",
       "Bash(findstr \"PORT\")",
       "Bash(powershell -Command \"Select-String -Path server.js -Pattern ''PORT''\")",
-      "Bash(powershell -Command \"Select-String -Path .env -Pattern ''PORT''\")"
+      "Bash(powershell -Command \"Select-String -Path .env -Pattern ''PORT''\")",
+      "Bash(dir *.js)",
+      "Bash(dir routes)",
+      "Bash(dir models)",
+      "Bash(dir *.env*)",
+      "Bash(del apiindex.js)",
+      "Bash(powershell Remove-Item -Recurse -Force api)",
+      "Bash(del start-local.bat README-local.md)",
+      "Bash(powershell Remove-Item start-local.bat, README-local.md)",
+      "Bash(powershell Remove-Item server.js.bak)",
+      "Bash(findstr -i \"test\\\\|debug\\\\|temp\")",
+      "Bash(powershell Get-ChildItem -Name \"*test*.js\", \"*debug*.js\", \"*temp*.js\")",
+      "Bash(powershell Remove-Item test-*.js, debug-*.js, temp-*.js)",
+      "Bash(powershell Get-ChildItem -Name \"*helper*\")",
+      "Bash(findstr .)",
+      "Bash(powershell Remove-Item login-helper.js)",
+      "Bash(powershell Remove-Item MOBILE_FEATURES.md, PROJECT_SUMMARY.md)",
+      "Bash(Where-Object {!$_PSIsContainer})",
+      "Bash(powershell Test-Path .gitignore)"
     ]
   }
 }

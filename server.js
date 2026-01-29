@@ -45,11 +45,14 @@ app.use('*', (req, res) => {
   res.status(404).json({ message: 'Route not found' });
 });
 
-// Start server
-const PORT = process.env.PORT || 5000; // Changed to 5000 as requested
-
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
-
+// Export the app for Vercel serverless functions
 module.exports = app;
+
+// Only start the server if running directly (not on Vercel)
+if (require.main === module) {
+  const PORT = process.env.PORT || 5000; // Will use Vercel's port or default to 5000
+
+  app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+  });
+}
